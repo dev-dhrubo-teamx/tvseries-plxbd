@@ -1,0 +1,8 @@
+[Series: Breaking Bad]
+
+[Season: Season 01]
+https://example.com/breakingbad/s01e01.mkv
+https://example.com/breakingbad/s01e02.mkv
+
+[Season: Season 02]
+https://example.com/breakingbad/s02e01.mkv
