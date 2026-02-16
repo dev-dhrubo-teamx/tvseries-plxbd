@@ -9,10 +9,13 @@ cd "$BASE_DIR" || exit 1
 current_series=""
 current_season=""
 
-curl -fsSL "$CONFIG_URL" | while IFS= read -r line; do
-    line="${line//$'\r'/}"  # windows line ending fix
+url_decode() {
+    printf '%b\n' "${1//%/\\x}"
+}
 
-    # skip empty or comment
+curl -fsSL "$CONFIG_URL" | while IFS= read -r line; do
+    line="${line//$'\r'/}"
+
     [[ -z "$line" || "$line" =~ ^# ]] && continue
 
     if [[ "$line" =~ ^\[Series:\ (.+)\]$ ]]; then
@@ -29,9 +32,9 @@ curl -fsSL "$CONFIG_URL" | while IFS= read -r line; do
         continue
     fi
 
-    # episode link
     url="$line"
-    filename=$(basename "${url%%\?*}")
+    raw_name=$(basename "${url%%\?*}")
+    filename=$(url_decode "$raw_name")
     target="$current_series/$current_season/$filename"
 
     if [[ -f "$target" ]]; then
